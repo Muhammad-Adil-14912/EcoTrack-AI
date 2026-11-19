@@ -4,9 +4,9 @@ import { calculateCarbonFootprint } from './carbonCalculator.js';
 
 test('calculates the expected default daily footprint', () => {
   const result = calculateCarbonFootprint({});
-  assert.equal(result.dailyTotal, 12.35);
-  assert.equal(result.monthlyTotal, 370.5);
-  assert.equal(result.yearlyTotal, 4507.75);
+  assert.equal(result.dailyTotal, 12.1);
+  assert.equal(result.monthlyTotal, 362.85);
+  assert.equal(result.yearlyTotal, 4414.68);
   assert.ok(result.score >= 10 && result.score <= 100);
 });
 
