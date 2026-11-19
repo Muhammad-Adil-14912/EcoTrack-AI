@@ -19,7 +19,7 @@ import ReceiptScanner from './components/ReceiptScanner';
 import MonthlyStory from './components/MonthlyStory';
 import EcoGPT from './components/EcoGPT';
 
-import { generateRecommendations } from './utils/carbonCalculator';
+import { calculateCarbonFootprint, generateRecommendations } from './utils/carbonCalculator';
 
 export default function App() {
   // Global Eco Points balance
@@ -34,18 +34,13 @@ export default function App() {
     waterConsumption: 150
   });
 
-  const [results, setResults] = useState({
-    dailyTotal: 12.35,
-    monthlyTotal: 370.5,
-    yearlyTotal: 4507.75,
-    score: 73,
-    breakdown: [
-      { name: 'Transport', value: 2.7, color: '#38BDF8' },
-      { name: 'Electricity', value: 3.75, color: '#FACC15' },
-      { name: 'Food', value: 5.6, color: '#4CAF50' },
-      { name: 'Water', value: 0.3, color: '#A5D6A7' }
-    ]
-  });
+  const [results, setResults] = useState(() => calculateCarbonFootprint({
+    transportType: 'car_petrol',
+    dailyDistance: 15,
+    electricityUsage: 250,
+    foodPreference: 'moderate_meat',
+    waterConsumption: 150
+  }));
 
   // Handle calculator outputs updating the state
   const handleCalculate = (newInputs, newResults) => {
