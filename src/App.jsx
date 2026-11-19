@@ -23,7 +23,7 @@ import { generateRecommendations } from './utils/carbonCalculator';
 
 export default function App() {
   // Global Eco Points balance
-  const [ecoPoints, setEcoPoints] = useState(380);
+  const [ecoPoints, setEcoPoints] = useState(0);
 
   // Calculator inputs & results states
   const [inputs, setInputs] = useState({
@@ -94,9 +94,8 @@ export default function App() {
   // Generate dynamic recommendations based on current inputs/results
   const recommendationsList = generateRecommendations(inputs, results);
 
-  // Dynamic values for Hero visual
+  // Show earned points, not a fabricated CO₂-saved estimate.
   const heroCarbonScore = results ? results.score : 73;
-  const heroCo2Saved = Math.round(180 + (ecoPoints * 0.45)); // Grows as users interact
 
   return (
     <div className="relative min-h-screen bg-slate-50 overflow-x-hidden">
@@ -105,7 +104,7 @@ export default function App() {
       <Navbar ecoPoints={ecoPoints} />
 
       {/* Hero Section */}
-      <Hero carbonScore={heroCarbonScore} co2Saved={heroCo2Saved} />
+      <Hero carbonScore={heroCarbonScore} ecoPoints={ecoPoints} />
 
       {/* Features Grid */}
       <Features />
