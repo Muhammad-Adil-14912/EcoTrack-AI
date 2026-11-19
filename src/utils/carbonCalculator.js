@@ -28,6 +28,10 @@ export const WATER_FACTOR = 0.0003; // kg CO2 per liter
  * @returns {Object} breakdown and totals
  */
 export const calculateCarbonFootprint = (inputs) => {
+  if (!inputs || typeof inputs !== 'object' || Array.isArray(inputs)) {
+    throw new TypeError('Carbon calculator inputs must be an object.');
+  }
+
   const {
     transportType = 'car_petrol',
     dailyDistance = 15,
@@ -36,8 +40,22 @@ export const calculateCarbonFootprint = (inputs) => {
     waterConsumption = 150 // L/day
   } = inputs;
 
+  const numericInputs = { dailyDistance, electricityUsage, waterConsumption };
+  for (const [field, value] of Object.entries(numericInputs)) {
+    if (!Number.isFinite(Number(value)) || Number(value) < 0) {
+      throw new RangeError(`${field} must be a finite, non-negative number.`);
+    }
+  }
+
+  if (!Object.hasOwn(TRANSPORT_FACTORS, transportType)) {
+    throw new RangeError(`Unsupported transport type: ${transportType}`);
+  }
+  if (!Object.hasOwn(FOOD_FACTORS, foodPreference)) {
+    throw new RangeError(`Unsupported food preference: ${foodPreference}`);
+  }
+
   // 1. Transport Emissions (Daily)
-  const transportFactor = TRANSPORT_FACTORS[transportType] || 0.18;
+  const transportFactor = TRANSPORT_FACTORS[transportType];
   const dailyTransport = dailyDistance * transportFactor;
 
   // 2. Electricity Emissions (Daily)
@@ -45,7 +63,7 @@ export const calculateCarbonFootprint = (inputs) => {
   const dailyElectricity = (electricityUsage / 30) * ELECTRICITY_FACTOR;
 
   // 3. Food Emissions (Daily)
-  const dailyFood = FOOD_FACTORS[foodPreference] || 5.6;
+  const dailyFood = FOOD_FACTORS[foodPreference];
 
   // 4. Water Emissions (Daily)
   const dailyWater = waterConsumption * WATER_FACTOR;

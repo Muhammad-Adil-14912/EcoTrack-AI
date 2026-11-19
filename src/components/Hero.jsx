@@ -19,7 +19,7 @@ const environmentalThoughts = [
   "Clean energy is not just a technology; it is our promise to the future."
 ];
 
-export default function Hero({ carbonScore, co2Saved }) {
+export default function Hero({ carbonScore, ecoPoints }) {
   const [currentImg, setCurrentImg] = useState(0);
 
   useEffect(() => {
@@ -168,12 +168,12 @@ export default function Hero({ carbonScore, co2Saved }) {
                   <TrendingDown className="w-8 h-8" />
                 </div>
                 <div className="space-y-2 text-right">
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">CO₂ Saved This Month</span>
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Eco Points Earned</span>
                   <div className="flex items-baseline justify-end gap-1">
-                    <span className="text-4xl font-extrabold text-slate-800">{co2Saved}</span>
-                    <span className="text-sky-600 font-bold text-sm">kg</span>
+                    <span className="text-4xl font-extrabold text-slate-800">{ecoPoints}</span>
+                    <span className="text-sky-600 font-bold text-sm">points</span>
                   </div>
-                  <p className="text-xs text-slate-500 font-medium">Equivalent to planting 3.2 trees</p>
+                  <p className="text-xs text-slate-500 font-medium">Earn points by completing sustainability activities</p>
                 </div>
               </motion.div>
 
